@@ -34,7 +34,6 @@ public class GameState extends JFrame
 		setTitle("PATCHNOTE");
 		setSize(640*2, 480*2);
 		setLocationRelativeTo(null);
-		
 	}
 
 	/**
