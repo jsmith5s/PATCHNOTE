@@ -1,4 +1,3 @@
-import javax.swing.JFrame;
 /**
 * Lead Author(s):
 * @author mastahype; student ID
@@ -16,8 +15,18 @@ import javax.swing.JFrame;
 *
 * <<Add more references here>>
 *
-* Version: 2025-11-02
+* Version: 2025-11-03
 */
+
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
 
 /**
  * Purpose: The reponsibility of GameState is ...
@@ -25,25 +34,36 @@ import javax.swing.JFrame;
  * GameState is-a ...
  * GameState is ...
  */
-public class GameState extends JFrame
+public class GameState extends JPanel
 {
 	
+	BufferedImage spriteSheet;
+	int temp;
+
 	public GameState() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
-		setTitle("PATCHNOTE");
-		setSize(640*2, 480*2);
-		setLocationRelativeTo(null);
+		setDoubleBuffered(true);
+		setBackground(Color.red);
+		
+		try
+		{
+			spriteSheet = ImageIO.read(new File("C:/Users/mastahype/git/PATCHNOTE/PATCHNOTE/assets/rbloxtale-rblox.png"));
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
-
-	/**
-	 * Purpose: 
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		new GameState();
-
+	
+	@Override
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		
+		Graphics2D g2d = (Graphics2D)g;
+		
+		g2d.drawImage(spriteSheet, 100, 100, null);
+		System.out.println(temp++);
+		//g2d.fillRect(100, 100, 200, 200);
 	}
-
+	
 }
