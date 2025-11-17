@@ -18,6 +18,8 @@
 * Version: 2025-11-03
 */
 
+import java.awt.image.BufferedImage;
+
 /**
  * Purpose: The reponsibility of Sprite is ...
  *
@@ -26,6 +28,7 @@
  */
 public class Sprite
 {
+	BufferedImage sprite;
 
 	public Sprite() {
 		

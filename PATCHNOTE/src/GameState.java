@@ -43,10 +43,14 @@ public class GameState extends JPanel
 	public GameState() {
 		setDoubleBuffered(true);
 		setBackground(Color.red);
+		System.out.println("success");
 		
 		try
 		{
 			spriteSheet = ImageIO.read(new File("C:/Users/mastahype/git/PATCHNOTE/PATCHNOTE/assets/rbloxtale-rblox.png"));
+			spriteSheet = spriteSheet.getSubimage(0, 0, 35, 40);
+			
+			//spriteSheet.getScaledInstance(spriteSheet.getWidth(), spriteSheet.getHeight(), 0); spriteSheet.
 		}
 		catch (IOException e)
 		{
@@ -61,7 +65,7 @@ public class GameState extends JPanel
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.drawImage(spriteSheet, 100, 100, null);
+		g2d.drawImage(spriteSheet, 600, 300, 35*3, 40*3, null);
 		System.out.println(temp++);
 		//g2d.fillRect(100, 100, 200, 200);
 	}
