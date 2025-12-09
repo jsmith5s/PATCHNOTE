@@ -14,6 +14,7 @@
 * https://open.umn.edu/opentextbooks/textbooks/java-java-java-object-oriented-problem-solving
 *
 * <<Add more references here>>
+* https://youtu.be/VpH33Uw-_0E?si=SbVotLRtpfPfBtjA		- aided in update function
 *
 * Version: 2025-11-03
 */
@@ -41,17 +42,15 @@ import javax.swing.Timer;
  * GameState is-a ...
  * GameState is ...
  */
-public class GameState extends JPanel implements ActionListener, KeyListener
+public class GameState extends JPanel implements ActionListener, KeyListener, Runnable
 {
 	
-	private Boolean running = true;
-	BufferedImage spriteSheet;
-	Graphics2D g2d;;
+	private Thread gameThread;
+	private BufferedImage spriteSheet;
+	private Graphics2D g2d;;
 
 	public GameState() {
 		run();
-		Timer t = new Timer(16, this);
-		t.start();
 		setDoubleBuffered(true);
 		setBackground(Color.red);
 		System.out.println("success");
@@ -70,33 +69,40 @@ public class GameState extends JPanel implements ActionListener, KeyListener
 		}
 	}
 	
+	public void startGameThread() {
+		gameThread = new Thread(this);
+		gameThread.start();
+	}
+	
 	public void update() {
-		//repaint();
+		
 	}
 	
 	public void run()
 	{
-		long lastTime = System.nanoTime();
-		double delta = 0.0;
-		double ns = 1000000000.0 / 60.0;
-		long timer = System.currentTimeMillis();
-		int updates = 0;
-		int frames = 0;
-		while(running) {
-			long now = System.nanoTime();
-			delta += (now - lastTime) / ns;
-			lastTime = now;
+		double drawInterval = 1000000000 / 60.0;
+		double nextDrawTime = System.nanoTime() + drawInterval;
+		
+		while (gameThread != null) {
+			update();
+			repaint();
 			
-			if (delta >= 1.0) {
-				update();
-				updates++;
-				delta--;
+			try
+			{
+				double remainingTime = nextDrawTime - System.nanoTime();
+				remainingTime /= 1000000;
+				
+				if (remainingTime < 0) {
+					remainingTime = 0;
+				}
+				
+				Thread.sleep((long) remainingTime);
+				
+				nextDrawTime += drawInterval;
 			}
-			frames++;
-			if (System.currentTimeMillis() - timer > 1000) {
-				timer += 1000;
-				System.out.println(updates + " UPS, " + frames + " FPS");
-				updates = frames = 0;
+			catch (InterruptedException e)
+			{
+				e.printStackTrace();
 			}
 		}
 	}
@@ -107,15 +113,15 @@ public class GameState extends JPanel implements ActionListener, KeyListener
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.drawImage(spriteSheet, 600, 300, 35*3, 40*3, null);
+		g2d.drawImage(spriteSheet, Main.gameWidth/2-spriteSheet.getTileWidth(), Main.gameHeight/2-spriteSheet.getTileHeight(), 35*3, 40*3, null);
 		//g2d.fillRect(100, 100, 200, 200);
+		g2d.dispose();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e)
 	{
 		// TODO Auto-generated method stub
-		repaint();
 	}
 
 	@Override

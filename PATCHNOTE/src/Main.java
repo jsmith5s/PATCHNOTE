@@ -1,7 +1,3 @@
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-
 import javax.swing.JFrame;
 
 /**
@@ -13,29 +9,25 @@ import javax.swing.JFrame;
 public class Main extends JFrame
 {
 	GameState gameState;
+	public static final int gameWidth = 1280;
+	public static final int gameHeight = 960;
 	
 	public Main() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setVisible(true);
 		setTitle("PATCHNOTE");
-		setSize(1280, 960);
+		setSize(gameWidth, gameHeight);
 		setLocationRelativeTo(null);
 		
 		gameState = new GameState();
+		gameState.startGameThread();
 		add(gameState);
 		
+		setVisible(true);
 	}
 
 	public static void main(String[] args)
 	{
 		new Main();
-	}
-	
-	public void paintComponent(Graphics g) {
-		Graphics2D g2d = (Graphics2D)g;
-		
-		gameState.paint(g2d);
-		//g2d.fillRect(100, 100, 200, 200);
 	}
 
 }

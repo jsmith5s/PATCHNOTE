@@ -19,6 +19,10 @@
 */
 
 import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 
 /**
  * Purpose: The reponsibility of Sprite is ...
@@ -26,15 +30,27 @@ import java.awt.image.BufferedImage;
  * Sprite is-a ...
  * Sprite is ...
  */
-public class Sprite
+public class Sprite extends BufferedImage
 {
-	BufferedImage sprite;
+	//BufferedImage spriteSheet;
 
 	public Sprite() {
-		
+		super(35, 40, TYPE_INT_ARGB);
+		try
+		{
+			ImageIO.read(new File("C:/Users/mastahype/git/PATCHNOTE/PATCHNOTE/assets/rbloxtale-rblox.png"));
+			getSubimage(0, 0, 35, 40);
+			
+			//spriteSheet.getScaledInstance(spriteSheet.getWidth(), spriteSheet.getHeight(), 0); spriteSheet.
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
-	public void loadFromImage() {
+	public void loadFromSheet() {
 		
 	}
 }
