@@ -22,19 +22,11 @@
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
+import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JPanel;
-import javax.swing.Timer;
 
 /**
  * Purpose: The reponsibility of GameState is ...
@@ -42,31 +34,24 @@ import javax.swing.Timer;
  * GameState is-a ...
  * GameState is ...
  */
-public class GameState extends JPanel implements ActionListener, KeyListener, Runnable
+public class GameState extends JPanel implements KeyListener, Runnable
 {
 	
 	private Thread gameThread;
-	private BufferedImage spriteSheet;
-	private Graphics2D g2d;;
+	private ArrayList<Sprite> gameSprites = new ArrayList<Sprite>();
+	private final int universalScale = 8;
+	private Sprite rblox;
+	
 
 	public GameState() {
 		run();
 		setDoubleBuffered(true);
 		setBackground(Color.red);
-		System.out.println("success");
 		
-		try
-		{
-			spriteSheet = ImageIO.read(new File("C:/Users/mastahype/git/PATCHNOTE/PATCHNOTE/assets/rbloxtale-rblox.png"));
-			spriteSheet = spriteSheet.getSubimage(0, 0, 35, 40);
-			
-			//spriteSheet.getScaledInstance(spriteSheet.getWidth(), spriteSheet.getHeight(), 0); spriteSheet.
-		}
-		catch (IOException e)
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		rblox = new Sprite(550, 300);
+		rblox.loadFromSheet("assets/rbloxtale-rblox.png");
+		add(rblox);
+		
 	}
 	
 	public void startGameThread() {
@@ -75,6 +60,9 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Ru
 	}
 	
 	public void update() {
+		for (Sprite sprite : gameSprites) {
+			sprite.update();
+		}
 		
 	}
 	
@@ -107,21 +95,23 @@ public class GameState extends JPanel implements ActionListener, KeyListener, Ru
 		}
 	}
 	
+	public void add(Sprite sprite) {
+		gameSprites.add(sprite);
+	}
+	
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		
 		Graphics2D g2d = (Graphics2D)g;
 		
-		g2d.drawImage(spriteSheet, Main.gameWidth/2-spriteSheet.getTileWidth(), Main.gameHeight/2-spriteSheet.getTileHeight(), 35*3, 40*3, null);
+		//g2d.drawImage(spriteSheet, Main.gameWidth/2-spriteSheet.getTileWidth(), Main.gameHeight/2-spriteSheet.getTileHeight(), 35*3, 40*3, null);
+		for (Sprite sprite : gameSprites) {
+			g2d.drawImage(sprite.getBufferedImage(), sprite.getX(), sprite.getY(), 
+					sprite.getWidth()*universalScale, sprite.getHeight()*universalScale, null);
+		}
 		//g2d.fillRect(100, 100, 200, 200);
 		g2d.dispose();
-	}
-
-	@Override
-	public void actionPerformed(ActionEvent e)
-	{
-		// TODO Auto-generated method stub
 	}
 
 	@Override

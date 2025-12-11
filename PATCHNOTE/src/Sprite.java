@@ -18,6 +18,7 @@
 * Version: 2025-11-03
 */
 
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -30,18 +31,28 @@ import javax.imageio.ImageIO;
  * Sprite is-a ...
  * Sprite is ...
  */
-public class Sprite extends BufferedImage
+public class Sprite
 {
-	//BufferedImage spriteSheet;
+	private BufferedImage image;
+	private int x, y, width, height;
+	private Rectangle collider;
+	
 
-	public Sprite() {
-		super(35, 40, TYPE_INT_ARGB);
+	public Sprite(int x, int y) {
+		
+		this.x = x;
+		this.y = y;
+		
+	}
+	
+	public void loadFromSheet(String path) {
 		try
 		{
-			ImageIO.read(new File("C:/Users/mastahype/git/PATCHNOTE/PATCHNOTE/assets/rbloxtale-rblox.png"));
-			getSubimage(0, 0, 35, 40);
+			image = ImageIO.read(new File(path));
+			image = image.getSubimage(0, 0, 35, 40);
 			
-			//spriteSheet.getScaledInstance(spriteSheet.getWidth(), spriteSheet.getHeight(), 0); spriteSheet.
+			width = 35;
+			height = 40;
 		}
 		catch (IOException e)
 		{
@@ -50,7 +61,59 @@ public class Sprite extends BufferedImage
 		}
 	}
 	
-	public void loadFromSheet() {
+	public void loadFromImage(String path) {
+		try
+		{
+			image = ImageIO.read(new File(path));
+		}
+		catch (IOException e)
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void addAnimAtlas(String animName) {
 		
+	}
+	
+	public void addAnimIndices(String animName, String[] indices) {
+		
+	}
+	
+	public void playAnim(String animName) {
+		
+	}
+	
+	public void update() {
+		
+	}
+	
+	public BufferedImage getBufferedImage() {
+		return image;
+	}
+	
+	public void setX(int newX) {
+		x = newX;
+	}
+	
+	public void setY(int newY) {
+		y = newY;
+	}
+	
+	public int getX() {
+		return x;
+	}
+	
+	public int getY() {
+		return y;
+	}
+	
+	public int getWidth() {
+		return width;
+	}
+	
+	public int getHeight() {
+		return height;
 	}
 }
