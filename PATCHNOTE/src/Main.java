@@ -20,6 +20,7 @@ public class Main extends JFrame
 		
 		gameState = new GameState();
 		gameState.startGameThread();
+		addKeyListener(GameState.rblox);
 		add(gameState);
 		
 		setVisible(true);

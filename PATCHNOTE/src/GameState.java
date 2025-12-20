@@ -39,17 +39,18 @@ public class GameState extends JPanel implements KeyListener, Runnable
 	
 	private Thread gameThread;
 	private ArrayList<Sprite> gameSprites = new ArrayList<Sprite>();
-	private final int universalScale = 8;
-	private Sprite rblox;
+	private final int universalScale = 4;
+	private int updatesPerSecond = 0;
+	public static Player rblox;
 	
 
 	public GameState() {
 		run();
 		setDoubleBuffered(true);
-		setBackground(Color.red);
+		setBackground(Color.white);
 		
-		rblox = new Sprite(550, 300);
-		rblox.loadFromSheet("assets/rbloxtale-rblox.png");
+		rblox = new Player(550, 300);
+		addKeyListener(rblox);
 		add(rblox);
 		
 	}
@@ -60,12 +61,20 @@ public class GameState extends JPanel implements KeyListener, Runnable
 	}
 	
 	public void update() {
+		updatesPerSecond++;
+		if (updatesPerSecond == 61)
+			updatesPerSecond = 0;
+		//System.out.println(updatesPerSecond);
+		
 		for (Sprite sprite : gameSprites) {
-			sprite.update();
+			sprite.update(updatesPerSecond);
 		}
 		
 	}
 	
+	/*
+	 * Handles the game to run at 60 FPS
+	 */
 	public void run()
 	{
 		double drawInterval = 1000000000 / 60.0;
@@ -125,7 +134,7 @@ public class GameState extends JPanel implements KeyListener, Runnable
 	public void keyPressed(KeyEvent e)
 	{
 		// TODO Auto-generated method stub
-		
+		System.out.println("game");
 	}
 
 	@Override
